@@ -43,6 +43,64 @@ namespace modelsGenerator
             return w;
         }
 
+        public List<string> getDesigualdadesSc1(int numJugadores, ref int contadorEqs, ref int contadorW)
+        {
+            List<string> listaRetorno = new List<string>();
+
+            //tipo 1
+            string eqDesType1 = "(q1-Bf1)*(D1/q1) +";
+            string eqDesType1Final = eqDesType1;
+            for (int m = 1; m < numJugadores; m++)
+            {
+                if (m == numJugadores - 1)
+                {
+                    eqDesType1Final += reemplazoIndiceConstante((m + 1).ToString(), eqDesType1).Remove(reemplazoIndiceConstante((m + 1).ToString(), eqDesType1).Length - 1) + "=L=Z;";
+                }
+                else
+                {
+                    eqDesType1Final += reemplazoIndiceConstante((m + 1).ToString(), eqDesType1);
+                }
+            }
+
+            listaRetorno.Add("eq" + contadorEqs.ToString() + ".. " + eqDesType1Final);
+            contadorEqs++;
+
+            //tipo 4
+
+            
+            for (int k = 1; k <= numJugadores; k++)
+            {
+                string eqComplement = "b" + k + "*(D" + k + "/q" + k + ")+(q" + k + "-Bf" + k + ")*(D" + k + "/q" + k + ")=G=D" + k + ";";
+                string eq = "eq" + contadorEqs.ToString() + ".. " + eqComplement;
+                listaRetorno.Add(eq);
+                contadorEqs++;
+            }
+
+            return listaRetorno;
+        }
+
+        public List<string> getIgualdadesSc1(int numJugadores, ref int contadorEqs)
+        {
+            List<string> listaRetorno = new List<string>();
+
+            //tipo 1
+
+            string eqEquType1 = "eq" + contadorEqs.ToString() + ".. " + "Cf =E= Qf/(" + funcionSumaHorizontal(numJugadores, "q", "+") + ");";
+            listaRetorno.Add(eqEquType1);
+            contadorEqs++;
+
+            //tipo 2
+
+            for (int i = 1; i <= numJugadores; i++)
+            {
+                string eqEquType2 = "eq" + contadorEqs.ToString() + ".. " + "D" + i + "/q" + i + "=E= (" + funcionSumaHorizontal(numJugadores, "D", "+") + ")/Qf;";
+                listaRetorno.Add(eqEquType2);
+                contadorEqs++;
+            }
+
+            return listaRetorno;
+        }
+
         public List<string> getDesigualdadesSc3(int numJugadores, ref int contadorEqs, ref int contadorW)
         {
             //tipo 1
