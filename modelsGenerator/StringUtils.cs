@@ -216,6 +216,7 @@ namespace modelsGenerator
 
         public List<string> getBetasSc3(int numJugadores, ref int contadorEqs)
         {
+            //prueba
             List<string> listaRetorno = new List<string>();
             int inicioW = calcularValorInicioW(numJugadores);
             string entradaConstante = "beta1*((-h1*((q1-b1/q1))+(s1+(b1/q1)))+((D1/q1)";
