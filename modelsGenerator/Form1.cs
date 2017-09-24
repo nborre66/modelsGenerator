@@ -138,6 +138,7 @@ namespace modelsGenerator
                 List<string> listaDesigualdades = new List<string>();
                 List<string> listaIgualdades = new List<string>();
                 List<string> listaBetas = new List<string>();
+                List<string> listaComplemento = new List<string>();
                 int contadorEqs = 1;
                 int contadorW = 1;
                 int numJugadores = (int)numPlayers.Value;
@@ -181,6 +182,13 @@ namespace modelsGenerator
 
                 listaBetas = utils.getBetasSc3(numJugadores, ref contadorEqs);
                 foreach (string eq in listaBetas)
+                {
+                    script.Append(eq);
+                    script.AppendLine();
+                }
+
+                listaComplemento = utils.getWcomplemento(numJugadores, ref contadorEqs);
+                foreach (string eq in listaComplemento)
                 {
                     script.Append(eq);
                     script.AppendLine();

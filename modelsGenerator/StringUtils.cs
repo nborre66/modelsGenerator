@@ -39,7 +39,7 @@ namespace modelsGenerator
 
             //Armo su W
             //Replace - por + tener en cuenta.
-            string w = "eq" + contadorEqs.ToString() + ".. " + "w" + contadorW + "*(" + eqComplementSplit[0] + "-" + eqComplementSplit[1].Replace("(", "").Replace(")", "").Replace(";", "").Replace("-","+") + ")=E=0;";
+            string w = "eq" + contadorEqs.ToString() + ".. " + "w" + contadorW + "*(" + eqComplementSplit[0] + "-" + eqComplementSplit[1].Replace("(", "").Replace(")", "").Replace(";", "").Replace("-", "+") + ")=E=0;";
             return w;
         }
 
@@ -50,7 +50,7 @@ namespace modelsGenerator
 
             //Armo su W
 
-            string w = "eq" + contadorEqs.ToString() + ".. " + "w" + contadorW + "*(" + eqComplementSplit[1].Replace("(", "").Replace(")", "").Replace(";", "") + "-(" + eqComplementSplit[0].Replace("+",")-(") + "))=E=0;";
+            string w = "eq" + contadorEqs.ToString() + ".. " + "w" + contadorW + "*(" + eqComplementSplit[1].Replace("(", "").Replace(")", "").Replace(";", "") + "-(" + eqComplementSplit[0].Replace("+", ")-(") + "))=E=0;";
             return w;
         }
 
@@ -242,8 +242,8 @@ namespace modelsGenerator
                         listaRetorno.Add("eq" + contadorEqs.ToString() + ".. " + eqComplement);
                         contadorEqs++;
 
-                        string w = getEqSplitW(eqComplement,ref contadorEqs,ref contadorW, "=L=");
-                        
+                        string w = getEqSplitW(eqComplement, ref contadorEqs, ref contadorW, "=L=");
+
                         listaRetorno.Add(w);
                         contadorW++;
                         contadorEqs++;
@@ -289,7 +289,7 @@ namespace modelsGenerator
             {
                 if (m == numJugadores - 1)
                 {
-                    eqDesType3Final += reemplazoIndiceConstante((m + 1).ToString(), eqDesType3).Remove(reemplazoIndiceConstante((m + 1).ToString(), eqDesType3).Length-1) + "=L=Z;";
+                    eqDesType3Final += reemplazoIndiceConstante((m + 1).ToString(), eqDesType3).Remove(reemplazoIndiceConstante((m + 1).ToString(), eqDesType3).Length - 1) + "=L=Z;";
                 }
                 else
                 {
@@ -370,13 +370,13 @@ namespace modelsGenerator
             string eqEquType2Final = eqEquType2;
             for (int i = 0; i < numJugadores; i++)
             {
-                eqEquType2Final = reemplazoIndiceConstante((i + 1).ToString(), eqEquType2)+"=E=1;";
+                eqEquType2Final = reemplazoIndiceConstante((i + 1).ToString(), eqEquType2) + "=E=1;";
                 listaRetorno.Add("eq" + contadorEqs.ToString() + ".. " + eqEquType2Final);
                 contadorEqs++;
             }
             //tipo 3
 
-            string eqEquType3 = "eq" + contadorEqs.ToString() + ".. " + "Cf =E= Qf/(" + funcionSumaHorizontal(numJugadores, "q", "+")+");";
+            string eqEquType3 = "eq" + contadorEqs.ToString() + ".. " + "Cf =E= Qf/(" + funcionSumaHorizontal(numJugadores, "q", "+") + ");";
             listaRetorno.Add(eqEquType3);
             contadorEqs++;
             //tipo 4
@@ -413,19 +413,24 @@ namespace modelsGenerator
 
         public List<string> getWcomplemento(int numJugadores, ref int contadorEqs)
         {
-            //prueba
             List<string> listaRetorno = new List<string>();
-            int inicioW = calcularValorInicioWComplemento(numJugadores);
+            int inicioWx = calcularValorInicioWx(numJugadores);
+            List<int> inicioWy = calcularValorInicioWy(numJugadores);
             string entradaConstante = "((D1/q1)";
-            listaRetorno.Add("eq" + contadorEqs.ToString() + ".. " + "-w" + inicioW + "+"+entradaConstante+"w"+inicioW+")"+"=E=0;");
-            inicioW++;
-            contadorEqs++;
-            for (int i = 2; i <= numJugadores; i++)
-            {
-                string eq = reemplazoIndiceConstante(i.ToString(), entradaConstante) + "*w" + inicioW + ")=E=0;";
-                listaRetorno.Add("eq" + contadorEqs.ToString() + ".. " + eq);
-                inicioW++;
-                contadorEqs++;
+            
+            //iteracion por jugador
+            for (int j = 1; j <= numJugadores; j++) {
+
+                //iteracion por restriccion
+                for (int i = 1; i <= numJugadores; i++)
+                {
+                    if (i != j)
+                    {
+                        listaRetorno.Add("eq" + contadorEqs.ToString() + ".. " + "-w" + inicioWx + "+" + reemplazoIndiceConstante(i.ToString(), entradaConstante) + "*w" + inicioWy[i-1] + ")" + "=E=0;");
+                        contadorEqs++;
+                    }
+                }
+                inicioWx++;
             }
 
             return listaRetorno;
@@ -465,7 +470,7 @@ namespace modelsGenerator
             return valores[posicion];
         }
 
-        public int calcularValorInicioWComplemento(int numJugadores)
+        public int calcularValorInicioWx(int numJugadores)
         {
             List<int> jugadores = new List<int>();
             List<int> valores = new List<int>();
@@ -482,9 +487,9 @@ namespace modelsGenerator
             {
                 if (i == 2)
                 {
-                    valorIteracion = 5;
+                    valorIteracion = 2;
                     valores.Add(valorIteracion);
-                    valorSumar = 3;
+                    valorSumar = 2;
                 }
                 else
                 {
@@ -497,6 +502,47 @@ namespace modelsGenerator
             int posicion = jugadores.IndexOf(numJugadores);
 
             return valores[posicion];
+        }
+
+        public List<int> calcularValorInicioWy(int numJugadores)
+        {
+            List<int> jugadores = new List<int>();
+            List<int> valores = new List<int>();
+            List<int> retorno = new List<int>();
+
+            int valorSumar = 0;
+            int valorIteracion = 0;
+
+            for (int i = 2; i <= numJugadores; i++)
+            {
+                jugadores.Add(i);
+            }
+
+            for (int i = 2; i <= numJugadores; i++)
+            {
+                if (i == 2)
+                {
+                    valorIteracion = 6;
+                    valores.Add(valorIteracion);
+                    valorSumar = 3;
+                }
+                else
+                {
+                    valorIteracion = valorIteracion + valorSumar;
+                    valores.Add(valorIteracion);
+                    valorSumar++;
+                }
+            }
+            int posicion = jugadores.IndexOf(numJugadores);
+            int valor = valores[posicion] - 1;
+
+            for (int i = 1; i<= numJugadores; i++)
+            {
+                retorno.Add(valor);
+                valor++;
+            }
+
+            return retorno;
         }
     }
 }
