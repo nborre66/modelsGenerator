@@ -32,6 +32,7 @@
             this.grbParameters = new System.Windows.Forms.GroupBox();
             this.btnGenScript = new System.Windows.Forms.Button();
             this.grbAditionalParameters = new System.Windows.Forms.GroupBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.numPlayers = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -41,12 +42,18 @@
             this.grbScriptViewer = new System.Windows.Forms.GroupBox();
             this.btnExecuteProgram = new System.Windows.Forms.Button();
             this.richScriptViewer = new System.Windows.Forms.RichTextBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.dgvVariables = new System.Windows.Forms.DataGridView();
+            this.colDescripcion = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colValor = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btnLimpiar = new System.Windows.Forms.Button();
             this.grbParameters.SuspendLayout();
             this.grbAditionalParameters.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numPlayers)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.grbScriptViewer.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvVariables)).BeginInit();
             this.SuspendLayout();
             // 
             // grbParameters
@@ -83,6 +90,15 @@
             this.grbAditionalParameters.TabStop = false;
             this.grbAditionalParameters.Text = "Parametros Adicionales";
             this.grbAditionalParameters.Enter += new System.EventHandler(this.grbAditionalParameters_Enter);
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Location = new System.Drawing.Point(7, 54);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(157, 62);
+            this.groupBox2.TabIndex = 2;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Guardar Resultados ";
             // 
             // numPlayers
             // 
@@ -164,16 +180,16 @@
             // 
             this.grbScriptViewer.Controls.Add(this.btnExecuteProgram);
             this.grbScriptViewer.Controls.Add(this.richScriptViewer);
-            this.grbScriptViewer.Location = new System.Drawing.Point(207, 6);
+            this.grbScriptViewer.Location = new System.Drawing.Point(410, 6);
             this.grbScriptViewer.Name = "grbScriptViewer";
-            this.grbScriptViewer.Size = new System.Drawing.Size(612, 295);
+            this.grbScriptViewer.Size = new System.Drawing.Size(409, 295);
             this.grbScriptViewer.TabIndex = 1;
             this.grbScriptViewer.TabStop = false;
             this.grbScriptViewer.Text = "Visor de Script";
             // 
             // btnExecuteProgram
             // 
-            this.btnExecuteProgram.Location = new System.Drawing.Point(270, 256);
+            this.btnExecuteProgram.Location = new System.Drawing.Point(152, 256);
             this.btnExecuteProgram.Name = "btnExecuteProgram";
             this.btnExecuteProgram.Size = new System.Drawing.Size(103, 23);
             this.btnExecuteProgram.TabIndex = 1;
@@ -185,24 +201,63 @@
             // 
             this.richScriptViewer.Location = new System.Drawing.Point(7, 19);
             this.richScriptViewer.Name = "richScriptViewer";
-            this.richScriptViewer.Size = new System.Drawing.Size(599, 231);
+            this.richScriptViewer.Size = new System.Drawing.Size(396, 231);
             this.richScriptViewer.TabIndex = 0;
             this.richScriptViewer.Text = "";
             // 
-            // groupBox2
+            // groupBox3
             // 
-            this.groupBox2.Location = new System.Drawing.Point(7, 54);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(157, 62);
-            this.groupBox2.TabIndex = 2;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Guardar Resultados ";
+            this.groupBox3.Controls.Add(this.btnLimpiar);
+            this.groupBox3.Controls.Add(this.dgvVariables);
+            this.groupBox3.Location = new System.Drawing.Point(207, 6);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(197, 295);
+            this.groupBox3.TabIndex = 2;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Variables y Parametros";
+            this.groupBox3.Enter += new System.EventHandler(this.groupBox3_Enter);
+            // 
+            // dgvVariables
+            // 
+            this.dgvVariables.AllowUserToAddRows = false;
+            this.dgvVariables.AllowUserToDeleteRows = false;
+            this.dgvVariables.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvVariables.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colDescripcion,
+            this.colValor});
+            this.dgvVariables.Location = new System.Drawing.Point(8, 19);
+            this.dgvVariables.Name = "dgvVariables";
+            this.dgvVariables.Size = new System.Drawing.Size(183, 231);
+            this.dgvVariables.TabIndex = 0;
+            // 
+            // colDescripcion
+            // 
+            this.colDescripcion.HeaderText = "descripcion";
+            this.colDescripcion.Name = "colDescripcion";
+            this.colDescripcion.ReadOnly = true;
+            this.colDescripcion.Width = 70;
+            // 
+            // colValor
+            // 
+            this.colValor.HeaderText = "valor";
+            this.colValor.Name = "colValor";
+            this.colValor.Width = 70;
+            // 
+            // btnLimpiar
+            // 
+            this.btnLimpiar.Location = new System.Drawing.Point(62, 256);
+            this.btnLimpiar.Name = "btnLimpiar";
+            this.btnLimpiar.Size = new System.Drawing.Size(75, 23);
+            this.btnLimpiar.TabIndex = 1;
+            this.btnLimpiar.Text = "Limpiar";
+            this.btnLimpiar.UseVisualStyleBackColor = true;
             // 
             // frmApp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(831, 305);
+            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.grbScriptViewer);
             this.Controls.Add(this.grbParameters);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -219,6 +274,8 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.grbScriptViewer.ResumeLayout(false);
+            this.groupBox3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvVariables)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -238,6 +295,11 @@
         private System.Windows.Forms.Button btnExecuteProgram;
         private System.Windows.Forms.RichTextBox richScriptViewer;
         private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox groupBox3;
+        public System.Windows.Forms.DataGridView dgvVariables;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colDescripcion;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colValor;
+        private System.Windows.Forms.Button btnLimpiar;
     }
 }
 
