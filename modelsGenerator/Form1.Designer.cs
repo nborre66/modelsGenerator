@@ -43,10 +43,10 @@
             this.btnExecuteProgram = new System.Windows.Forms.Button();
             this.richScriptViewer = new System.Windows.Forms.RichTextBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.btnLimpiar = new System.Windows.Forms.Button();
             this.dgvVariables = new System.Windows.Forms.DataGridView();
             this.colDescripcion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colValor = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.btnLimpiar = new System.Windows.Forms.Button();
             this.grbParameters.SuspendLayout();
             this.grbAditionalParameters.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numPlayers)).BeginInit();
@@ -61,18 +61,21 @@
             this.grbParameters.Controls.Add(this.btnGenScript);
             this.grbParameters.Controls.Add(this.grbAditionalParameters);
             this.grbParameters.Controls.Add(this.groupBox1);
-            this.grbParameters.Location = new System.Drawing.Point(13, 6);
+            this.grbParameters.Location = new System.Drawing.Point(17, 7);
+            this.grbParameters.Margin = new System.Windows.Forms.Padding(4);
             this.grbParameters.Name = "grbParameters";
-            this.grbParameters.Size = new System.Drawing.Size(188, 295);
+            this.grbParameters.Padding = new System.Windows.Forms.Padding(4);
+            this.grbParameters.Size = new System.Drawing.Size(251, 363);
             this.grbParameters.TabIndex = 0;
             this.grbParameters.TabStop = false;
             this.grbParameters.Text = "Parametros de entrada";
             // 
             // btnGenScript
             // 
-            this.btnGenScript.Location = new System.Drawing.Point(26, 256);
+            this.btnGenScript.Location = new System.Drawing.Point(35, 315);
+            this.btnGenScript.Margin = new System.Windows.Forms.Padding(4);
             this.btnGenScript.Name = "btnGenScript";
-            this.btnGenScript.Size = new System.Drawing.Size(126, 23);
+            this.btnGenScript.Size = new System.Drawing.Size(168, 28);
             this.btnGenScript.TabIndex = 2;
             this.btnGenScript.Text = "Generar Script GAMS";
             this.btnGenScript.UseVisualStyleBackColor = true;
@@ -83,26 +86,30 @@
             this.grbAditionalParameters.Controls.Add(this.groupBox2);
             this.grbAditionalParameters.Controls.Add(this.numPlayers);
             this.grbAditionalParameters.Controls.Add(this.label1);
-            this.grbAditionalParameters.Location = new System.Drawing.Point(7, 128);
+            this.grbAditionalParameters.Location = new System.Drawing.Point(9, 158);
+            this.grbAditionalParameters.Margin = new System.Windows.Forms.Padding(4);
             this.grbAditionalParameters.Name = "grbAditionalParameters";
-            this.grbAditionalParameters.Size = new System.Drawing.Size(170, 122);
+            this.grbAditionalParameters.Padding = new System.Windows.Forms.Padding(4);
+            this.grbAditionalParameters.Size = new System.Drawing.Size(227, 150);
             this.grbAditionalParameters.TabIndex = 1;
             this.grbAditionalParameters.TabStop = false;
             this.grbAditionalParameters.Text = "Parametros Adicionales";
-            this.grbAditionalParameters.Enter += new System.EventHandler(this.grbAditionalParameters_Enter);
             // 
             // groupBox2
             // 
-            this.groupBox2.Location = new System.Drawing.Point(7, 54);
+            this.groupBox2.Location = new System.Drawing.Point(9, 66);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(157, 62);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(4);
+            this.groupBox2.Size = new System.Drawing.Size(209, 76);
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Guardar Resultados ";
             // 
             // numPlayers
             // 
-            this.numPlayers.Location = new System.Drawing.Point(100, 26);
+            this.numPlayers.Location = new System.Drawing.Point(133, 32);
+            this.numPlayers.Margin = new System.Windows.Forms.Padding(4);
             this.numPlayers.Maximum = new decimal(new int[] {
             15,
             0,
@@ -115,7 +122,7 @@
             0});
             this.numPlayers.Name = "numPlayers";
             this.numPlayers.ReadOnly = true;
-            this.numPlayers.Size = new System.Drawing.Size(45, 20);
+            this.numPlayers.Size = new System.Drawing.Size(60, 22);
             this.numPlayers.TabIndex = 1;
             this.numPlayers.Value = new decimal(new int[] {
             2,
@@ -126,9 +133,10 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(16, 28);
+            this.label1.Location = new System.Drawing.Point(21, 34);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(78, 13);
+            this.label1.Size = new System.Drawing.Size(103, 17);
             this.label1.TabIndex = 0;
             this.label1.Text = "# de jugadores";
             // 
@@ -137,9 +145,11 @@
             this.groupBox1.Controls.Add(this.rbEscenario3);
             this.groupBox1.Controls.Add(this.rbEscenario2);
             this.groupBox1.Controls.Add(this.rbEscenario1);
-            this.groupBox1.Location = new System.Drawing.Point(6, 28);
+            this.groupBox1.Location = new System.Drawing.Point(8, 34);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(171, 93);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
+            this.groupBox1.Size = new System.Drawing.Size(228, 114);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Seleccion Escenario";
@@ -147,9 +157,10 @@
             // rbEscenario3
             // 
             this.rbEscenario3.AutoSize = true;
-            this.rbEscenario3.Location = new System.Drawing.Point(20, 65);
+            this.rbEscenario3.Location = new System.Drawing.Point(27, 80);
+            this.rbEscenario3.Margin = new System.Windows.Forms.Padding(4);
             this.rbEscenario3.Name = "rbEscenario3";
-            this.rbEscenario3.Size = new System.Drawing.Size(81, 17);
+            this.rbEscenario3.Size = new System.Drawing.Size(104, 21);
             this.rbEscenario3.TabIndex = 2;
             this.rbEscenario3.Text = "Escenario 3";
             this.rbEscenario3.UseVisualStyleBackColor = true;
@@ -157,9 +168,10 @@
             // rbEscenario2
             // 
             this.rbEscenario2.AutoSize = true;
-            this.rbEscenario2.Location = new System.Drawing.Point(20, 42);
+            this.rbEscenario2.Location = new System.Drawing.Point(27, 52);
+            this.rbEscenario2.Margin = new System.Windows.Forms.Padding(4);
             this.rbEscenario2.Name = "rbEscenario2";
-            this.rbEscenario2.Size = new System.Drawing.Size(81, 17);
+            this.rbEscenario2.Size = new System.Drawing.Size(104, 21);
             this.rbEscenario2.TabIndex = 1;
             this.rbEscenario2.Text = "Escenario 2";
             this.rbEscenario2.UseVisualStyleBackColor = true;
@@ -168,9 +180,10 @@
             // 
             this.rbEscenario1.AutoSize = true;
             this.rbEscenario1.Checked = true;
-            this.rbEscenario1.Location = new System.Drawing.Point(20, 19);
+            this.rbEscenario1.Location = new System.Drawing.Point(27, 23);
+            this.rbEscenario1.Margin = new System.Windows.Forms.Padding(4);
             this.rbEscenario1.Name = "rbEscenario1";
-            this.rbEscenario1.Size = new System.Drawing.Size(81, 17);
+            this.rbEscenario1.Size = new System.Drawing.Size(104, 21);
             this.rbEscenario1.TabIndex = 0;
             this.rbEscenario1.TabStop = true;
             this.rbEscenario1.Text = "Escenario 1";
@@ -180,18 +193,21 @@
             // 
             this.grbScriptViewer.Controls.Add(this.btnExecuteProgram);
             this.grbScriptViewer.Controls.Add(this.richScriptViewer);
-            this.grbScriptViewer.Location = new System.Drawing.Point(410, 6);
+            this.grbScriptViewer.Location = new System.Drawing.Point(547, 7);
+            this.grbScriptViewer.Margin = new System.Windows.Forms.Padding(4);
             this.grbScriptViewer.Name = "grbScriptViewer";
-            this.grbScriptViewer.Size = new System.Drawing.Size(409, 295);
+            this.grbScriptViewer.Padding = new System.Windows.Forms.Padding(4);
+            this.grbScriptViewer.Size = new System.Drawing.Size(545, 363);
             this.grbScriptViewer.TabIndex = 1;
             this.grbScriptViewer.TabStop = false;
             this.grbScriptViewer.Text = "Visor de Script";
             // 
             // btnExecuteProgram
             // 
-            this.btnExecuteProgram.Location = new System.Drawing.Point(152, 256);
+            this.btnExecuteProgram.Location = new System.Drawing.Point(203, 315);
+            this.btnExecuteProgram.Margin = new System.Windows.Forms.Padding(4);
             this.btnExecuteProgram.Name = "btnExecuteProgram";
-            this.btnExecuteProgram.Size = new System.Drawing.Size(103, 23);
+            this.btnExecuteProgram.Size = new System.Drawing.Size(137, 28);
             this.btnExecuteProgram.TabIndex = 1;
             this.btnExecuteProgram.Text = "Ejecutar Programa";
             this.btnExecuteProgram.UseVisualStyleBackColor = true;
@@ -199,9 +215,10 @@
             // 
             // richScriptViewer
             // 
-            this.richScriptViewer.Location = new System.Drawing.Point(7, 19);
+            this.richScriptViewer.Location = new System.Drawing.Point(9, 23);
+            this.richScriptViewer.Margin = new System.Windows.Forms.Padding(4);
             this.richScriptViewer.Name = "richScriptViewer";
-            this.richScriptViewer.Size = new System.Drawing.Size(396, 231);
+            this.richScriptViewer.Size = new System.Drawing.Size(527, 283);
             this.richScriptViewer.TabIndex = 0;
             this.richScriptViewer.Text = "";
             // 
@@ -209,13 +226,25 @@
             // 
             this.groupBox3.Controls.Add(this.btnLimpiar);
             this.groupBox3.Controls.Add(this.dgvVariables);
-            this.groupBox3.Location = new System.Drawing.Point(207, 6);
+            this.groupBox3.Location = new System.Drawing.Point(276, 7);
+            this.groupBox3.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(197, 295);
+            this.groupBox3.Padding = new System.Windows.Forms.Padding(4);
+            this.groupBox3.Size = new System.Drawing.Size(263, 363);
             this.groupBox3.TabIndex = 2;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Variables y Parametros";
-            this.groupBox3.Enter += new System.EventHandler(this.groupBox3_Enter);
+            // 
+            // btnLimpiar
+            // 
+            this.btnLimpiar.Location = new System.Drawing.Point(83, 315);
+            this.btnLimpiar.Margin = new System.Windows.Forms.Padding(4);
+            this.btnLimpiar.Name = "btnLimpiar";
+            this.btnLimpiar.Size = new System.Drawing.Size(100, 28);
+            this.btnLimpiar.TabIndex = 1;
+            this.btnLimpiar.Text = "Limpiar";
+            this.btnLimpiar.UseVisualStyleBackColor = true;
+            this.btnLimpiar.Click += new System.EventHandler(this.btnLimpiar_Click);
             // 
             // dgvVariables
             // 
@@ -225,10 +254,16 @@
             this.dgvVariables.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colDescripcion,
             this.colValor});
-            this.dgvVariables.Location = new System.Drawing.Point(8, 19);
+            this.dgvVariables.Location = new System.Drawing.Point(11, 23);
+            this.dgvVariables.Margin = new System.Windows.Forms.Padding(4);
             this.dgvVariables.Name = "dgvVariables";
-            this.dgvVariables.Size = new System.Drawing.Size(183, 231);
+            this.dgvVariables.Size = new System.Drawing.Size(244, 284);
             this.dgvVariables.TabIndex = 0;
+            this.dgvVariables.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dgvVariables_CellBeginEdit);
+            this.dgvVariables.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvVariables_CellEndEdit);
+            
+            this.dgvVariables.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.dgvVariables_EditingControlShowing);
+            this.dgvVariables.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.dgvVariables_KeyPress);
             // 
             // colDescripcion
             // 
@@ -243,30 +278,21 @@
             this.colValor.Name = "colValor";
             this.colValor.Width = 70;
             // 
-            // btnLimpiar
-            // 
-            this.btnLimpiar.Location = new System.Drawing.Point(62, 256);
-            this.btnLimpiar.Name = "btnLimpiar";
-            this.btnLimpiar.Size = new System.Drawing.Size(75, 23);
-            this.btnLimpiar.TabIndex = 1;
-            this.btnLimpiar.Text = "Limpiar";
-            this.btnLimpiar.UseVisualStyleBackColor = true;
-            // 
             // frmApp
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(831, 305);
+            this.ClientSize = new System.Drawing.Size(1108, 375);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.grbScriptViewer);
             this.Controls.Add(this.grbParameters);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.Name = "frmApp";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Models Generator App";
-            this.Load += new System.EventHandler(this.frmApp_Load);
             this.grbParameters.ResumeLayout(false);
             this.grbAditionalParameters.ResumeLayout(false);
             this.grbAditionalParameters.PerformLayout();

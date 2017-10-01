@@ -61,8 +61,8 @@ namespace modelsGenerator
 
             //Armo su W
 
-            string w = "eq" + contadorEqs.ToString() + ".. " + "w" + contadorW + "*(" + eqComplementSplit[1].Replace("(", "").Replace(")", "").Replace(";", "") + "-(" + eqComplementSplit[0].Replace("+", ")-(") + ")=E=0;";
-            w = w.Replace("(((", "((").Replace("L12)-(L13", "L12-L13");
+            string w = "eq" + contadorEqs.ToString() + ".. " + "w" + contadorW + "*(" + eqComplementSplit[1].Replace("(", "").Replace(")", "").Replace(";", "") + "-(" + eqComplementSplit[0].Replace(")+(", "))-((") + ")=E=0;";
+            w = w.Replace("(((", "((");
             return w;
         }
 
