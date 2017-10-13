@@ -280,7 +280,7 @@ namespace modelsGenerator
         public string getComplement()
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append(@"MODEL modelo1 / all /"); 
+            sb.Append(@"MODEL modelo1 / all /;"); 
             sb.AppendLine();
             sb.Append("SOLVE modelo1 using MINLP minimizing F");
             return sb.ToString();

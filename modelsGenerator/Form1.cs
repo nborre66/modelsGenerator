@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GAMS;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -77,7 +78,7 @@ namespace modelsGenerator
                 parameters = builder.getParameters(totalParameters);
                 model = builder.scenario3Build((int)numPlayers.Value, ref contadorEqs, ref contadorW);
                 variables = builder.getVariables(variableScenario(3, contadorW), (int)numPlayers.Value);
-                equations = builder.getEquations(contadorEqs);
+                equations = builder.getEquations(contadorEqs-1);
                 complement = builder.getComplement();
                 finalModel.Append(initial);
                 finalModel.AppendLine();
@@ -95,7 +96,28 @@ namespace modelsGenerator
 
         private void btnExecuteProgram_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("En construccion", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            GAMSWorkspace ws;
+            if (Environment.GetCommandLineArgs().Length > 1)
+                ws = new GAMSWorkspace(systemDirectory: Environment.GetCommandLineArgs()[1]);
+            else
+                ws = new GAMSWorkspace("D://");
+
+            using (GAMSOptions opt = ws.AddOptions())
+            {
+                opt.AllModelTypes = "LINDOGLOBAL";
+                opt.IterLim = 900000000;
+                //opt.MINLP = "LINDOGLOBAL";
+                
+                GAMSJob j1 = ws.AddJobFromString(@richScriptViewer.Text.ToString());
+                j1.Run(opt);
+
+                foreach (GAMSVariableRecord rec in j1.OutDB.GetVariable("q2"))
+                    MessageBox.Show(rec.Variable.LastRecord().Level.ToString());
+            }
+            
+            
+
+
         }
 
         private void addParametersNVariables(int scenario)
