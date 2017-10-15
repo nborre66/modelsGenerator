@@ -12,11 +12,19 @@ namespace modelsGenerator
 
         public string scenario1Build(int numPlayers, ref int contadorEqs)
         {
+            /*
+             listaDesigualdades = Lista de ecuaciones de desigualdad
+             listaIgualdades = Lista de ecuaciones de igualdad
+             listaBetas = Lista de ecuaciones con Betas
+             numJugadores = numero de minoristas
+             */
             List<string> listaDesigualdades = new List<string>();
             List<string> listaIgualdades = new List<string>();
             List<string> listaBetas = new List<string>();
-            int contadorW = 1;
             int numJugadores = numPlayers;
+            int contadorW = 1;
+            // cadenaAlfa = Ecuacion para jugador 1
+            // Construyo Funcion objetivo
             string cadenaAlfa = "k1*((D1)/(q1)) + h1*(((q1-b1)**2)/(2*q1)) + s1*(((b1)**2)/(2*q1))";
             StringBuilder script = new StringBuilder();
             script.Append("funobj.. F =E= Kf*((");
@@ -40,15 +48,17 @@ namespace modelsGenerator
                 }
                 script.AppendLine();
             }
-
+            //Obtengo desigualdades
             listaDesigualdades = utils.getDesigualdadesSc1(numJugadores, ref contadorEqs, ref contadorW);
+            //Las agrego al script
             foreach (string eq in listaDesigualdades)
             {
                 script.Append(eq);
                 script.AppendLine();
             }
-
+            //Obtengo igualdades
             listaIgualdades = utils.getIgualdadesSc1(numJugadores, ref contadorEqs);
+            //Las agrego al script
             foreach (string eq in listaIgualdades)
             {
                 script.Append(eq);

@@ -13,8 +13,9 @@ namespace modelsGenerator
 {
     public partial class frmApp : Form
     {
-        StringUtils utils = new StringUtils();
+        // Instancia builder
         ScenarioBuilder builder = new ScenarioBuilder();
+        // Lista total de parametros
         List<string> totalParameters = new List<string>();
         string valorCelda = "";
         public frmApp()
@@ -24,20 +25,39 @@ namespace modelsGenerator
 
         private void btnGenScript_Click(object sender, EventArgs e)
         {
+            //Limpio la ventana del modelo
             richScriptViewer.Clear();
+            //Inicializo contadores W y Eq
             int contadorEqs = 1;
             int contadorW = 1;
+            /*
+            initial = Encabezado de script
+            parameters = Declaracion de parametros
+            variables = Declaracion de variables
+            equations = Declaracion de ecuaciones
+            model = modelo generado
+            complement = Pie de Script
+             */
             string initial, parameters, variables, equations, model, complement = "";
+            // finalModel = initial + parameters + variables + equations + model + complement
             StringBuilder finalModel = new StringBuilder();
             if (rbEscenario1.Checked)
             {
-                addParametersNVariables(1);
+                // Adiciona parametros en tabla por escenario
+                addParameters(1);
+                // Construyo Initial
                 initial = builder.getInitial();
+                // Construyo Parameters
                 parameters = builder.getParameters(totalParameters);
+                // Construyo Modelo
                 model = builder.scenario1Build((int)numPlayers.Value, ref contadorEqs);
+                // Construyo Variables
                 variables = builder.getVariables(variableScenario(1, contadorW), (int)numPlayers.Value);
-                equations = builder.getEquations(contadorEqs);
+                // Construyo Ecuaciones
+                equations = builder.getEquations(contadorEqs-1);
+                // Construyo Complemento
                 complement = builder.getComplement();
+                // Organizo y muestro en la ventana del modelo
                 finalModel.Append(initial);
                 finalModel.AppendLine();
                 finalModel.Append(parameters);
@@ -52,12 +72,12 @@ namespace modelsGenerator
             }
             else if (rbEscenario2.Checked)
             {
-                addParametersNVariables(2);
+                addParameters(2);
                 initial = builder.getInitial();
                 parameters = builder.getParameters(totalParameters);
                 model = builder.scenario2Build((int)numPlayers.Value, ref contadorEqs, ref contadorW);
                 variables = builder.getVariables(variableScenario(2, contadorW), (int)numPlayers.Value);
-                equations = builder.getEquations(contadorEqs);
+                equations = builder.getEquations(contadorEqs-1);
                 complement = builder.getComplement();
                 finalModel.Append(initial);
                 finalModel.AppendLine();
@@ -73,7 +93,7 @@ namespace modelsGenerator
             }
             else
             {
-                addParametersNVariables(3);
+                addParameters(3);
                 initial = builder.getInitial();
                 parameters = builder.getParameters(totalParameters);
                 model = builder.scenario3Build((int)numPlayers.Value, ref contadorEqs, ref contadorW);
@@ -120,42 +140,55 @@ namespace modelsGenerator
 
         }
 
-        private void addParametersNVariables(int scenario)
+        private void addParameters(int scenario)
         {
+            // Limpio lista total de parametros
             totalParameters.Clear();
-            dgvVariables.Rows.Clear();
+            // Limpio la tabla de parametros
+            dgvParameters.Rows.Clear();
+            /*
+             fixedParameters = Parametros fijos
+             nonFixedParameters = Parametros con indice
+             */
             List<string> fixedParameters = new List<string>();
             List<string> nonFixedParameters = new List<string>();
 
             //Adicion de parametros fijos en tabla
             fixedParameters = fixedValuesParametersScenario(scenario);
-
+            //Agrego en la tabla
             foreach (string parameter in fixedParameters)
             {
-                this.dgvVariables.Rows.Add(parameter, "0");
+                this.dgvParameters.Rows.Add(parameter, "0");
             }
 
-            //Adicion de parametros variables en tabla
+            //Adicion de parametros con indice en tabla
             nonFixedParameters = nonFixedValuesParametersScenario(scenario);
-
+            //Agrego en la tabla
             foreach (string parameter in nonFixedParameters)
             {
-                this.dgvVariables.Rows.Add(parameter, "0");
+                this.dgvParameters.Rows.Add(parameter, "0");
             }
 
         }
 
         public List<List<string>> variableScenario(int scenario, int contadorW)
         {
+            // Lista de Listas que voy a retornar
             List<List<string>> retornar = new List<List<string>>();
+            // Lista total de variables
             List<string> totalVariable = new List<string>();
+            // Lista de variables Enteras
             List<string> integerVariable = getIntegerVariables(scenario);
+            // Lista de variables Positivas
             List<string> positiveVariable = getPositiveVariables(scenario, contadorW);
+            // Lista de variables Binarias
             List<string> binaryVariable = getBinaryVariables(scenario);
+            // Agrego todas las listas a la lista total de variables 
             totalVariable.AddRange(integerVariable);
             totalVariable.AddRange(positiveVariable);
             totalVariable.AddRange(binaryVariable);
 
+            // Agrego Lista entera, Lista positiva, Lista Binaria y lista total a la lista que voy a retornar
             retornar.Add(integerVariable);
             retornar.Add(positiveVariable);
             retornar.Add(binaryVariable);
@@ -165,6 +198,7 @@ namespace modelsGenerator
 
         public List<string> getIntegerVariables(int scenario)
         {
+            // Lista de variables
             List<string> values = new List<string>();
             values.Add("Qf");
             values.Add("Cf");
@@ -208,6 +242,7 @@ namespace modelsGenerator
 
         public List<string> getPositiveVariables(int scenario, int contadorW)
         {
+            //Lista de variables
             List<string> values = new List<string>();
 
             if (scenario == 2 || scenario == 3)
@@ -230,6 +265,7 @@ namespace modelsGenerator
         }
         public List<string> getBinaryVariables(int scenario)
         {
+            // Lista de variables 
             List<string> values = new List<string>();
 
             if (scenario == 3)
@@ -322,10 +358,10 @@ namespace modelsGenerator
 
         private void btnLimpiar_Click(object sender, EventArgs e)
         {
-            foreach (DataGridViewRow myRow in dgvVariables.Rows)
+            foreach (DataGridViewRow myRow in dgvParameters.Rows)
             {
-                string replaceOld = @"scalar " + dgvVariables[0, myRow.Index].Value.ToString() + " /" + dgvVariables[1, myRow.Index].Value.ToString() + "/";
-                string replaceNew = @"scalar " + dgvVariables[0, myRow.Index].Value.ToString() + " /0/";
+                string replaceOld = @"scalar " + dgvParameters[0, myRow.Index].Value.ToString() + " /" + dgvParameters[1, myRow.Index].Value.ToString() + "/";
+                string replaceNew = @"scalar " + dgvParameters[0, myRow.Index].Value.ToString() + " /0/";
                 richScriptViewer.Rtf = richScriptViewer.Rtf.Replace(replaceOld, replaceNew);
                 myRow.Cells[1].Value = "0"; 
             }
@@ -333,13 +369,13 @@ namespace modelsGenerator
 
         private void dgvVariables_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
         {
-            valorCelda = dgvVariables[e.ColumnIndex, e.RowIndex].Value.ToString();
+            valorCelda = dgvParameters[e.ColumnIndex, e.RowIndex].Value.ToString();
         }
 
         private void dgvVariables_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
-            string replaceOld = @"scalar " + dgvVariables[0, e.RowIndex].Value.ToString() + " /" + valorCelda + "/";
-            string replaceNew = @"scalar " + dgvVariables[0, e.RowIndex].Value.ToString() + " /" + dgvVariables[e.ColumnIndex, e.RowIndex].Value.ToString() + "/";
+            string replaceOld = @"scalar " + dgvParameters[0, e.RowIndex].Value.ToString() + " /" + valorCelda + "/";
+            string replaceNew = @"scalar " + dgvParameters[0, e.RowIndex].Value.ToString() + " /" + dgvParameters[e.ColumnIndex, e.RowIndex].Value.ToString() + "/";
 
             richScriptViewer.Rtf = richScriptViewer.Rtf.Replace(replaceOld, replaceNew);
         }

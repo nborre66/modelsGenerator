@@ -44,7 +44,7 @@
             this.richScriptViewer = new System.Windows.Forms.RichTextBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.btnLimpiar = new System.Windows.Forms.Button();
-            this.dgvVariables = new System.Windows.Forms.DataGridView();
+            this.dgvParameters = new System.Windows.Forms.DataGridView();
             this.colDescripcion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colValor = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.grbParameters.SuspendLayout();
@@ -53,7 +53,7 @@
             this.groupBox1.SuspendLayout();
             this.grbScriptViewer.SuspendLayout();
             this.groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvVariables)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvParameters)).BeginInit();
             this.SuspendLayout();
             // 
             // grbParameters
@@ -225,7 +225,7 @@
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.btnLimpiar);
-            this.groupBox3.Controls.Add(this.dgvVariables);
+            this.groupBox3.Controls.Add(this.dgvParameters);
             this.groupBox3.Location = new System.Drawing.Point(276, 7);
             this.groupBox3.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox3.Name = "groupBox3";
@@ -246,24 +246,23 @@
             this.btnLimpiar.UseVisualStyleBackColor = true;
             this.btnLimpiar.Click += new System.EventHandler(this.btnLimpiar_Click);
             // 
-            // dgvVariables
+            // dgvParameters
             // 
-            this.dgvVariables.AllowUserToAddRows = false;
-            this.dgvVariables.AllowUserToDeleteRows = false;
-            this.dgvVariables.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvVariables.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dgvParameters.AllowUserToAddRows = false;
+            this.dgvParameters.AllowUserToDeleteRows = false;
+            this.dgvParameters.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvParameters.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colDescripcion,
             this.colValor});
-            this.dgvVariables.Location = new System.Drawing.Point(11, 23);
-            this.dgvVariables.Margin = new System.Windows.Forms.Padding(4);
-            this.dgvVariables.Name = "dgvVariables";
-            this.dgvVariables.Size = new System.Drawing.Size(244, 284);
-            this.dgvVariables.TabIndex = 0;
-            this.dgvVariables.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dgvVariables_CellBeginEdit);
-            this.dgvVariables.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvVariables_CellEndEdit);
-            
-            this.dgvVariables.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.dgvVariables_EditingControlShowing);
-            this.dgvVariables.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.dgvVariables_KeyPress);
+            this.dgvParameters.Location = new System.Drawing.Point(11, 23);
+            this.dgvParameters.Margin = new System.Windows.Forms.Padding(4);
+            this.dgvParameters.Name = "dgvParameters";
+            this.dgvParameters.Size = new System.Drawing.Size(244, 284);
+            this.dgvParameters.TabIndex = 0;
+            this.dgvParameters.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dgvVariables_CellBeginEdit);
+            this.dgvParameters.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvVariables_CellEndEdit);
+            this.dgvParameters.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.dgvVariables_EditingControlShowing);
+            this.dgvParameters.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.dgvVariables_KeyPress);
             // 
             // colDescripcion
             // 
@@ -301,7 +300,7 @@
             this.groupBox1.PerformLayout();
             this.grbScriptViewer.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvVariables)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvParameters)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -322,7 +321,7 @@
         private System.Windows.Forms.RichTextBox richScriptViewer;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.GroupBox groupBox3;
-        public System.Windows.Forms.DataGridView dgvVariables;
+        public System.Windows.Forms.DataGridView dgvParameters;
         private System.Windows.Forms.DataGridViewTextBoxColumn colDescripcion;
         private System.Windows.Forms.DataGridViewTextBoxColumn colValor;
         private System.Windows.Forms.Button btnLimpiar;

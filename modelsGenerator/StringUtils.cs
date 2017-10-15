@@ -68,6 +68,7 @@ namespace modelsGenerator
 
         public List<string> getDesigualdadesSc1(int numJugadores, ref int contadorEqs, ref int contadorW)
         {
+            // Lista que se va a retornar
             List<string> listaRetorno = new List<string>();
 
             //tipo 1
@@ -84,17 +85,18 @@ namespace modelsGenerator
                     eqDesType1Final += reemplazoIndiceConstante((m + 1).ToString(), eqDesType1);
                 }
             }
-
+            //Agregamos la ecuacion de desigualdad de tipo 1 (Capacidad)
             listaRetorno.Add("eq" + contadorEqs.ToString() + ".. " + eqDesType1Final);
             contadorEqs++;
 
-            //tipo 4
+            //tipo 4 (Demanda)
 
 
             for (int k = 1; k <= numJugadores; k++)
             {
                 string eqComplement = "b" + k + "*(D" + k + "/q" + k + ")+(q" + k + "-Bf" + k + ")*(D" + k + "/q" + k + ")=G=D" + k + ";";
                 string eq = "eq" + contadorEqs.ToString() + ".. " + eqComplement;
+                // Agregamos la ecuacion de desigualdad de tipo 4 por jugador 
                 listaRetorno.Add(eq);
                 contadorEqs++;
             }
@@ -106,13 +108,13 @@ namespace modelsGenerator
         {
             List<string> listaRetorno = new List<string>();
 
-            //tipo 1
+            //tipo 1 Cf
 
             string eqEquType1 = "eq" + contadorEqs.ToString() + ".. " + "Cf =E= Qf/(" + funcionSumaHorizontal(numJugadores, "q", "+") + ");";
             listaRetorno.Add(eqEquType1);
             contadorEqs++;
 
-            //tipo 2
+            //tipo 2 Coordinacion pedidos
 
             for (int i = 1; i <= numJugadores; i++)
             {
