@@ -6,6 +6,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -17,6 +18,8 @@ namespace modelsGenerator
         ScenarioBuilder builder = new ScenarioBuilder();
         // Lista total de parametros
         List<string> totalParameters = new List<string>();
+        // Lista de resultados
+        List<string> listResults = new List<string>();
         string valorCelda = "";
         public frmApp()
         {
@@ -27,6 +30,8 @@ namespace modelsGenerator
         {
             //Limpio la ventana del modelo
             richScriptViewer.Clear();
+            //Limpio Consola
+            richConsoleViewer.Clear();
             //Inicializo contadores W y Eq
             int contadorEqs = 1;
             int contadorW = 1;
@@ -114,8 +119,43 @@ namespace modelsGenerator
             }
         }
 
-        private void btnExecuteProgram_Click(object sender, EventArgs e)
+        private async void btnExecuteProgram_Click(object sender, EventArgs e)
         {
+            listResults.Clear();
+            richConsoleViewer.Clear();
+            StringBuilder respuesta = new StringBuilder();
+            btnExecuteProgram.Enabled = false;
+            respuesta.Append("Inicio Ejecucion Programa " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+            respuesta.AppendLine();
+            respuesta.Append("Solver: LINDOGLOBAL");
+            respuesta.AppendLine();
+            respuesta.Append("Iterlim: 900000000");
+            respuesta.AppendLine();
+            respuesta.Append("Obteniendo resultados, por favor espere");
+            respuesta.AppendLine();
+            richConsoleViewer.AppendText(respuesta.ToString());
+            string modelo = @richScriptViewer.Text.ToString();
+            await Task.Run(() => executeGamsJob(modelo));
+
+            foreach (string lineConsole in listResults)
+            {
+                respuesta.Append(lineConsole);
+                respuesta.AppendLine();
+            }
+
+            richConsoleViewer.Clear();
+            richConsoleViewer.AppendText(respuesta.ToString());
+
+            btnExecuteProgram.Enabled = true;
+        }
+
+        private void executeGamsJob(string modelo)
+        {
+            List<string> variablesEval = new List<string>();
+            if (rbEscenario1.Checked) { variablesEval = getVariableEval(1); }
+            else if (rbEscenario2.Checked) { variablesEval = getVariableEval(2); }
+            else { variablesEval = getVariableEval(3); }
+
             GAMSWorkspace ws;
             if (Environment.GetCommandLineArgs().Length > 1)
                 ws = new GAMSWorkspace(systemDirectory: Environment.GetCommandLineArgs()[1]);
@@ -126,16 +166,19 @@ namespace modelsGenerator
             {
                 opt.AllModelTypes = "LINDOGLOBAL";
                 opt.IterLim = 900000000;
-                //opt.MINLP = "LINDOGLOBAL";
-                
-                GAMSJob j1 = ws.AddJobFromString(@richScriptViewer.Text.ToString());
+                GAMSJob j1 = ws.AddJobFromString(modelo);
                 j1.Run(opt);
 
-                foreach (GAMSVariableRecord rec in j1.OutDB.GetVariable("q2"))
-                    MessageBox.Show(rec.Variable.LastRecord().Level.ToString());
+                foreach (string variable in variablesEval)
+                {
+                    foreach (GAMSVariableRecord rec in j1.OutDB.GetVariable(variable))
+                    {
+                        listResults.Add("variable " + variable + "=" + rec.Variable.LastRecord().Level.ToString());
+                    }
+
+                }
+                listResults.Add("Hora finalizacion: " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
             }
-            
-            
 
 
         }
@@ -294,6 +337,56 @@ namespace modelsGenerator
             values.Add("Z");
             totalParameters.AddRange(values);
             return values;
+        }
+
+        public List<string> getVariableEval(int scenario)
+        {
+            // Lista de Listas que voy a retornar
+            List<string> retornar = new List<string>();
+
+            retornar.Add("Qf");
+            retornar.Add("Cf");
+            for (int i = 1; i <= (int)numPlayers.Value; i++)
+            {
+                retornar.Add("q" + i);
+            }
+            for (int i = 1; i <= (int)numPlayers.Value; i++)
+            {
+                retornar.Add("b" + i);
+            }
+            for (int i = 1; i <= (int)numPlayers.Value; i++)
+            {
+                retornar.Add("Bf" + i);
+            }
+
+
+            if (scenario == 2 || scenario == 3)
+            {
+                for (int i = 1; i <= (int)numPlayers.Value; i++)
+                {
+                    retornar.Add("alfa" + i);
+                }
+                for (int i = 1; i <= (int)numPlayers.Value; i++)
+                {
+                    retornar.Add("beta" + i);
+                }
+            }
+
+            if (scenario == 3)
+            {
+                for (int i = 1; i <= (int)numPlayers.Value; i++)
+                {
+                    for (int j = 1; j <= (int)numPlayers.Value; j++)
+                    {
+                        if (i != j)
+                        {
+                            retornar.Add("L" + i.ToString() + j.ToString());
+                        }
+                    }
+                }
+            }
+
+            return retornar;
         }
 
         public List<string> nonFixedValuesParametersScenario(int scenario)

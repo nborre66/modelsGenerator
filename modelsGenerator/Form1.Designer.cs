@@ -47,6 +47,8 @@
             this.dgvParameters = new System.Windows.Forms.DataGridView();
             this.colDescripcion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colValor = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.grbConsole = new System.Windows.Forms.GroupBox();
+            this.richConsoleViewer = new System.Windows.Forms.RichTextBox();
             this.grbParameters.SuspendLayout();
             this.grbAditionalParameters.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numPlayers)).BeginInit();
@@ -54,6 +56,7 @@
             this.grbScriptViewer.SuspendLayout();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvParameters)).BeginInit();
+            this.grbConsole.SuspendLayout();
             this.SuspendLayout();
             // 
             // grbParameters
@@ -65,14 +68,14 @@
             this.grbParameters.Margin = new System.Windows.Forms.Padding(4);
             this.grbParameters.Name = "grbParameters";
             this.grbParameters.Padding = new System.Windows.Forms.Padding(4);
-            this.grbParameters.Size = new System.Drawing.Size(251, 363);
+            this.grbParameters.Size = new System.Drawing.Size(251, 497);
             this.grbParameters.TabIndex = 0;
             this.grbParameters.TabStop = false;
             this.grbParameters.Text = "Parametros de entrada";
             // 
             // btnGenScript
             // 
-            this.btnGenScript.Location = new System.Drawing.Point(35, 315);
+            this.btnGenScript.Location = new System.Drawing.Point(33, 461);
             this.btnGenScript.Margin = new System.Windows.Forms.Padding(4);
             this.btnGenScript.Name = "btnGenScript";
             this.btnGenScript.Size = new System.Drawing.Size(168, 28);
@@ -90,7 +93,7 @@
             this.grbAditionalParameters.Margin = new System.Windows.Forms.Padding(4);
             this.grbAditionalParameters.Name = "grbAditionalParameters";
             this.grbAditionalParameters.Padding = new System.Windows.Forms.Padding(4);
-            this.grbAditionalParameters.Size = new System.Drawing.Size(227, 150);
+            this.grbAditionalParameters.Size = new System.Drawing.Size(227, 295);
             this.grbAditionalParameters.TabIndex = 1;
             this.grbAditionalParameters.TabStop = false;
             this.grbAditionalParameters.Text = "Parametros Adicionales";
@@ -191,20 +194,21 @@
             // 
             // grbScriptViewer
             // 
+            this.grbScriptViewer.Controls.Add(this.grbConsole);
             this.grbScriptViewer.Controls.Add(this.btnExecuteProgram);
             this.grbScriptViewer.Controls.Add(this.richScriptViewer);
-            this.grbScriptViewer.Location = new System.Drawing.Point(547, 7);
+            this.grbScriptViewer.Location = new System.Drawing.Point(578, 7);
             this.grbScriptViewer.Margin = new System.Windows.Forms.Padding(4);
             this.grbScriptViewer.Name = "grbScriptViewer";
             this.grbScriptViewer.Padding = new System.Windows.Forms.Padding(4);
-            this.grbScriptViewer.Size = new System.Drawing.Size(545, 363);
+            this.grbScriptViewer.Size = new System.Drawing.Size(545, 497);
             this.grbScriptViewer.TabIndex = 1;
             this.grbScriptViewer.TabStop = false;
             this.grbScriptViewer.Text = "Visor de Script";
             // 
             // btnExecuteProgram
             // 
-            this.btnExecuteProgram.Location = new System.Drawing.Point(203, 315);
+            this.btnExecuteProgram.Location = new System.Drawing.Point(202, 461);
             this.btnExecuteProgram.Margin = new System.Windows.Forms.Padding(4);
             this.btnExecuteProgram.Name = "btnExecuteProgram";
             this.btnExecuteProgram.Size = new System.Drawing.Size(137, 28);
@@ -218,7 +222,8 @@
             this.richScriptViewer.Location = new System.Drawing.Point(9, 23);
             this.richScriptViewer.Margin = new System.Windows.Forms.Padding(4);
             this.richScriptViewer.Name = "richScriptViewer";
-            this.richScriptViewer.Size = new System.Drawing.Size(527, 283);
+            this.richScriptViewer.ReadOnly = true;
+            this.richScriptViewer.Size = new System.Drawing.Size(527, 239);
             this.richScriptViewer.TabIndex = 0;
             this.richScriptViewer.Text = "";
             // 
@@ -230,14 +235,14 @@
             this.groupBox3.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox3.Size = new System.Drawing.Size(263, 363);
+            this.groupBox3.Size = new System.Drawing.Size(294, 497);
             this.groupBox3.TabIndex = 2;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Variables y Parametros";
             // 
             // btnLimpiar
             // 
-            this.btnLimpiar.Location = new System.Drawing.Point(83, 315);
+            this.btnLimpiar.Location = new System.Drawing.Point(95, 461);
             this.btnLimpiar.Margin = new System.Windows.Forms.Padding(4);
             this.btnLimpiar.Name = "btnLimpiar";
             this.btnLimpiar.Size = new System.Drawing.Size(100, 28);
@@ -257,7 +262,7 @@
             this.dgvParameters.Location = new System.Drawing.Point(11, 23);
             this.dgvParameters.Margin = new System.Windows.Forms.Padding(4);
             this.dgvParameters.Name = "dgvParameters";
-            this.dgvParameters.Size = new System.Drawing.Size(244, 284);
+            this.dgvParameters.Size = new System.Drawing.Size(275, 430);
             this.dgvParameters.TabIndex = 0;
             this.dgvParameters.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dgvVariables_CellBeginEdit);
             this.dgvParameters.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvVariables_CellEndEdit);
@@ -277,11 +282,30 @@
             this.colValor.Name = "colValor";
             this.colValor.Width = 70;
             // 
+            // grbConsole
+            // 
+            this.grbConsole.Controls.Add(this.richConsoleViewer);
+            this.grbConsole.Location = new System.Drawing.Point(9, 270);
+            this.grbConsole.Name = "grbConsole";
+            this.grbConsole.Size = new System.Drawing.Size(527, 184);
+            this.grbConsole.TabIndex = 2;
+            this.grbConsole.TabStop = false;
+            this.grbConsole.Text = "Consola";
+            // 
+            // richConsoleViewer
+            // 
+            this.richConsoleViewer.Location = new System.Drawing.Point(7, 22);
+            this.richConsoleViewer.Name = "richConsoleViewer";
+            this.richConsoleViewer.ReadOnly = true;
+            this.richConsoleViewer.Size = new System.Drawing.Size(514, 156);
+            this.richConsoleViewer.TabIndex = 0;
+            this.richConsoleViewer.Text = "";
+            // 
             // frmApp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1108, 375);
+            this.ClientSize = new System.Drawing.Size(1136, 517);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.grbScriptViewer);
             this.Controls.Add(this.grbParameters);
@@ -301,6 +325,7 @@
             this.grbScriptViewer.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvParameters)).EndInit();
+            this.grbConsole.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -325,6 +350,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colDescripcion;
         private System.Windows.Forms.DataGridViewTextBoxColumn colValor;
         private System.Windows.Forms.Button btnLimpiar;
+        private System.Windows.Forms.GroupBox grbConsole;
+        private System.Windows.Forms.RichTextBox richConsoleViewer;
     }
 }
 
