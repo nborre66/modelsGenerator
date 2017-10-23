@@ -75,10 +75,13 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Objects\Parameter.cs" />
+    <Compile Include="Objects\Variable.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ScenarioBuilder.cs" />
-    <Compile Include="StringUtils.cs" />
+    <Compile Include="Utils\ResultUtils.cs" />
+    <Compile Include="Utils\ScenarioBuilder.cs" />
+    <Compile Include="Utils\StringUtils.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
