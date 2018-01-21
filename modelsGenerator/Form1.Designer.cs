@@ -40,6 +40,8 @@
             this.rbEscenario2 = new System.Windows.Forms.RadioButton();
             this.rbEscenario1 = new System.Windows.Forms.RadioButton();
             this.grbScriptViewer = new System.Windows.Forms.GroupBox();
+            this.grbConsole = new System.Windows.Forms.GroupBox();
+            this.richConsoleViewer = new System.Windows.Forms.RichTextBox();
             this.btnExecuteProgram = new System.Windows.Forms.Button();
             this.richScriptViewer = new System.Windows.Forms.RichTextBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
@@ -47,16 +49,22 @@
             this.dgvParameters = new System.Windows.Forms.DataGridView();
             this.colDescripcion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colValor = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.grbConsole = new System.Windows.Forms.GroupBox();
-            this.richConsoleViewer = new System.Windows.Forms.RichTextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.txtLeadTime = new System.Windows.Forms.TextBox();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.fbdResults = new System.Windows.Forms.FolderBrowserDialog();
+            this.txtResultDirectory = new System.Windows.Forms.TextBox();
+            this.btnBrowseFolder = new System.Windows.Forms.Button();
             this.grbParameters.SuspendLayout();
             this.grbAditionalParameters.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numPlayers)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.grbScriptViewer.SuspendLayout();
+            this.grbConsole.SuspendLayout();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvParameters)).BeginInit();
-            this.grbConsole.SuspendLayout();
+            this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
             // grbParameters
@@ -86,6 +94,7 @@
             // 
             // grbAditionalParameters
             // 
+            this.grbAditionalParameters.Controls.Add(this.groupBox4);
             this.grbAditionalParameters.Controls.Add(this.groupBox2);
             this.grbAditionalParameters.Controls.Add(this.numPlayers);
             this.grbAditionalParameters.Controls.Add(this.label1);
@@ -100,6 +109,8 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.txtLeadTime);
+            this.groupBox2.Controls.Add(this.label2);
             this.groupBox2.Location = new System.Drawing.Point(9, 66);
             this.groupBox2.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox2.Name = "groupBox2";
@@ -107,7 +118,7 @@
             this.groupBox2.Size = new System.Drawing.Size(209, 76);
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Guardar Resultados ";
+            this.groupBox2.Text = "Lead Time";
             // 
             // numPlayers
             // 
@@ -206,6 +217,25 @@
             this.grbScriptViewer.TabStop = false;
             this.grbScriptViewer.Text = "Visor de Script";
             // 
+            // grbConsole
+            // 
+            this.grbConsole.Controls.Add(this.richConsoleViewer);
+            this.grbConsole.Location = new System.Drawing.Point(9, 270);
+            this.grbConsole.Name = "grbConsole";
+            this.grbConsole.Size = new System.Drawing.Size(527, 184);
+            this.grbConsole.TabIndex = 2;
+            this.grbConsole.TabStop = false;
+            this.grbConsole.Text = "Consola";
+            // 
+            // richConsoleViewer
+            // 
+            this.richConsoleViewer.Location = new System.Drawing.Point(7, 22);
+            this.richConsoleViewer.Name = "richConsoleViewer";
+            this.richConsoleViewer.ReadOnly = true;
+            this.richConsoleViewer.Size = new System.Drawing.Size(514, 156);
+            this.richConsoleViewer.TabIndex = 0;
+            this.richConsoleViewer.Text = "";
+            // 
             // btnExecuteProgram
             // 
             this.btnExecuteProgram.Location = new System.Drawing.Point(202, 461);
@@ -282,24 +312,52 @@
             this.colValor.Name = "colValor";
             this.colValor.Width = 70;
             // 
-            // grbConsole
+            // label2
             // 
-            this.grbConsole.Controls.Add(this.richConsoleViewer);
-            this.grbConsole.Location = new System.Drawing.Point(9, 270);
-            this.grbConsole.Name = "grbConsole";
-            this.grbConsole.Size = new System.Drawing.Size(527, 184);
-            this.grbConsole.TabIndex = 2;
-            this.grbConsole.TabStop = false;
-            this.grbConsole.Text = "Consola";
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(15, 34);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(41, 17);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "Valor";
             // 
-            // richConsoleViewer
+            // txtLeadTime
             // 
-            this.richConsoleViewer.Location = new System.Drawing.Point(7, 22);
-            this.richConsoleViewer.Name = "richConsoleViewer";
-            this.richConsoleViewer.ReadOnly = true;
-            this.richConsoleViewer.Size = new System.Drawing.Size(514, 156);
-            this.richConsoleViewer.TabIndex = 0;
-            this.richConsoleViewer.Text = "";
+            this.txtLeadTime.Location = new System.Drawing.Point(63, 31);
+            this.txtLeadTime.Name = "txtLeadTime";
+            this.txtLeadTime.Size = new System.Drawing.Size(121, 22);
+            this.txtLeadTime.TabIndex = 1;
+            this.txtLeadTime.Text = "0.0";
+            this.txtLeadTime.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtLeadTime_KeyPress);
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.btnBrowseFolder);
+            this.groupBox4.Controls.Add(this.txtResultDirectory);
+            this.groupBox4.Location = new System.Drawing.Point(9, 149);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(209, 76);
+            this.groupBox4.TabIndex = 3;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Guardar Resultados";
+            // 
+            // txtResultDirectory
+            // 
+            this.txtResultDirectory.Location = new System.Drawing.Point(15, 30);
+            this.txtResultDirectory.Name = "txtResultDirectory";
+            this.txtResultDirectory.ReadOnly = true;
+            this.txtResultDirectory.Size = new System.Drawing.Size(143, 22);
+            this.txtResultDirectory.TabIndex = 0;
+            // 
+            // btnBrowseFolder
+            // 
+            this.btnBrowseFolder.Location = new System.Drawing.Point(164, 30);
+            this.btnBrowseFolder.Name = "btnBrowseFolder";
+            this.btnBrowseFolder.Size = new System.Drawing.Size(39, 23);
+            this.btnBrowseFolder.TabIndex = 1;
+            this.btnBrowseFolder.Text = "...";
+            this.btnBrowseFolder.UseVisualStyleBackColor = true;
+            this.btnBrowseFolder.Click += new System.EventHandler(this.btnBrowseFolder_Click);
             // 
             // frmApp
             // 
@@ -319,13 +377,17 @@
             this.grbParameters.ResumeLayout(false);
             this.grbAditionalParameters.ResumeLayout(false);
             this.grbAditionalParameters.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numPlayers)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.grbScriptViewer.ResumeLayout(false);
+            this.grbConsole.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvParameters)).EndInit();
-            this.grbConsole.ResumeLayout(false);
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -352,6 +414,12 @@
         private System.Windows.Forms.Button btnLimpiar;
         private System.Windows.Forms.GroupBox grbConsole;
         private System.Windows.Forms.RichTextBox richConsoleViewer;
+        private System.Windows.Forms.TextBox txtLeadTime;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.FolderBrowserDialog fbdResults;
+        private System.Windows.Forms.Button btnBrowseFolder;
+        private System.Windows.Forms.TextBox txtResultDirectory;
     }
 }
 

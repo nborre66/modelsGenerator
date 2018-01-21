@@ -18,6 +18,8 @@ namespace modelsGenerator
         List<string> listResultsConsole = new List<string>();
         // valores Resultantes variable
         List<Variable> ListResultsVariable = new List<Variable>();
+        // texto de validacion de formulario
+        string warning = "";
         
         string valorCelda = "";
         public frmApp()
@@ -120,103 +122,251 @@ namespace modelsGenerator
 
         private async void btnExecuteProgram_Click(object sender, EventArgs e)
         {
-            ResultUtils util = new ResultUtils();
-            List<Parameter> listParameterValues = getParametersFromTable();
-            listResultsConsole.Clear();
-            ListResultsVariable.Clear();
-            richConsoleViewer.Clear();
-            StringBuilder respuesta = new StringBuilder();
-            btnExecuteProgram.Enabled = false;
-            respuesta.Append("Inicio Ejecucion Programa " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-            respuesta.AppendLine();
-            respuesta.Append("Solver: LINDOGLOBAL");
-            respuesta.AppendLine();
-            respuesta.Append("Iterlim: 900000000");
-            respuesta.AppendLine();
-            respuesta.Append("Obteniendo resultados, por favor espere");
-            respuesta.AppendLine();
-            richConsoleViewer.AppendText(respuesta.ToString());
-            string modelo = @richScriptViewer.Text.ToString();
-            await Task.Run(() => executeGamsJob(modelo));
+            bool err = validaForm();
+            
 
-            foreach (string lineConsole in listResultsConsole)
+            if (err)
             {
-                respuesta.Append(lineConsole);
-                respuesta.AppendLine();
-            }
-
-            respuesta.AppendLine();
-
-            if (rbEscenario1.Checked)
-            {
-                respuesta.Append("Costo fabricante: " + util.getFScenario1(getValueParameter(listParameterValues, false, "Kf"),
-                                                                getValueParameter(listParameterValues, true, "D"),
-                                                                getValueVariable(ListResultsVariable, false, "Qf"),
-                                                                getValueParameter(listParameterValues, false, "Hf"),
-                                                                getValueVariable(ListResultsVariable, false, "Cf"),
-                                                                getValueParameter(listParameterValues, false, "Sf"),
-                                                                getValueVariable(ListResultsVariable, true, "Bf")));
-                respuesta.AppendLine();
-
-                List<double> retailerValues = util.getMScenario1((int)numPlayers.Value,
-                                                        getListValuePameter(listParameterValues, "k"),
-                                                        getListValuePameter(listParameterValues, "D"),
-                                                        getListValuePameter(listParameterValues, "h"),
-                                                        getListValuePameter(listParameterValues, "s"),
-                                                        getListValueVariable(ListResultsVariable, "q"),
-                                                        getListValueVariable(ListResultsVariable, "b"));
-                int contadorMinorista = 1;
-                foreach (double value in retailerValues)
-                {
-                    respuesta.Append("Costo minorista " + contadorMinorista + ": " + value);
-                    respuesta.AppendLine();
-                    contadorMinorista++;
-                }
-            }
-            else if (rbEscenario2.Checked)
-            {
-                respuesta.Append("Costo fabricante: " + util.getFScenario2((int) numPlayers.Value, 
-                                                getValueParameter(listParameterValues, false, "Kf"),
-                                                getValueParameter(listParameterValues, true, "D"),
-                                                getValueVariable(ListResultsVariable, false, "Qf"),
-                                                getValueParameter(listParameterValues, false, "Hf"),
-                                                getValueVariable(ListResultsVariable, false, "Cf"),
-                                                getValueParameter(listParameterValues, false, "Sf"),
-                                                getValueVariable(ListResultsVariable, true, "Bf"),
-                                                getListValuePameter(listParameterValues, "k"),
-                                                getListValuePameter(listParameterValues, "D"),
-                                                getListValuePameter(listParameterValues, "h"),
-                                                getListValuePameter(listParameterValues, "s"),
-                                                getListValueVariable(ListResultsVariable, "q"),
-                                                getListValueVariable(ListResultsVariable, "b"),
-                                                getListValueVariable(ListResultsVariable,"alfa")
-                                                ));
-                respuesta.AppendLine();
-
-                List<double> retailerValues = util.getMScenario2((int)numPlayers.Value,
-                                                        getListValuePameter(listParameterValues, "k"),
-                                                        getListValuePameter(listParameterValues, "D"),
-                                                        getListValuePameter(listParameterValues, "h"),
-                                                        getListValuePameter(listParameterValues, "s"),
-                                                        getListValueVariable(ListResultsVariable, "q"),
-                                                        getListValueVariable(ListResultsVariable, "b"),
-                                                        getListValueVariable(ListResultsVariable, "beta"));
-                int contadorMinorista = 1;
-                foreach (double value in retailerValues)
-                {
-                    respuesta.Append("Costo minorista " + contadorMinorista + ": " + value);
-                    respuesta.AppendLine();
-                    contadorMinorista++;
-                }
+                MessageBox.Show(warning, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
             else
             {
+                ResultUtils util = new ResultUtils();
+                List<Parameter> listParameterValues = getParametersFromTable();
+                listResultsConsole.Clear();
+                ListResultsVariable.Clear();
+                richConsoleViewer.Clear();
+                StringBuilder respuesta = new StringBuilder();
+                btnExecuteProgram.Enabled = false;
+                respuesta.Append("Inicio Ejecucion Programa " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                respuesta.AppendLine();
+                respuesta.Append("Solver: LINDOGLOBAL");
+                respuesta.AppendLine();
+                respuesta.Append("Iterlim: 900000000");
+                respuesta.AppendLine();
+                respuesta.Append("Obteniendo resultados, por favor espere");
+                respuesta.AppendLine();
+                richConsoleViewer.AppendText(respuesta.ToString());
+                string modelo = @richScriptViewer.Text.ToString();
+                string directorio = txtResultDirectory.Text;
+                await Task.Run(() => executeGamsJob(modelo, directorio));
 
+                foreach (string lineConsole in listResultsConsole)
+                {
+                    respuesta.Append(lineConsole);
+                    respuesta.AppendLine();
+                }
+
+                respuesta.AppendLine();
+
+                if (rbEscenario1.Checked)
+                {
+                    respuesta.Append("Inicio calculo de resultados " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                    respuesta.AppendLine();
+                    respuesta.Append("Costo fabricante: " + util.getFScenario1(getValueParameter(listParameterValues, false, "Kf"),
+                                                                    getValueParameter(listParameterValues, true, "D"),
+                                                                    getValueVariable(ListResultsVariable, false, "Qf"),
+                                                                    getValueParameter(listParameterValues, false, "Hf"),
+                                                                    getValueVariable(ListResultsVariable, false, "Cf"),
+                                                                    getValueParameter(listParameterValues, false, "Sf"),
+                                                                    getValueVariable(ListResultsVariable, true, "Bf")));
+                    respuesta.AppendLine();
+
+                    List<double> retailerValues = util.getMScenario1((int)numPlayers.Value,
+                                                            getListValuePameter(listParameterValues, "k"),
+                                                            getListValuePameter(listParameterValues, "D"),
+                                                            getListValuePameter(listParameterValues, "h"),
+                                                            getListValuePameter(listParameterValues, "s"),
+                                                            getListValueVariable(ListResultsVariable, "q"),
+                                                            getListValueVariable(ListResultsVariable, "b"));
+                    int contadorMinorista = 1;
+                    foreach (double value in retailerValues)
+                    {
+                        respuesta.Append("Costo minorista " + contadorMinorista + ": " + value);
+                        respuesta.AppendLine();
+                        contadorMinorista++;
+                    }
+
+                    List<double> reOrderPointsValues = util.getReOrderPoint((int)numPlayers.Value,
+                                                        getListValueVariable(ListResultsVariable, "q"),
+                                                        getListValuePameter(listParameterValues, "D"),
+                                                        getListValueVariable(ListResultsVariable, "b"),
+                                                        double.Parse(txtLeadTime.Text, System.Globalization.CultureInfo.InvariantCulture)
+                                                        );
+
+                    int contadorPunto = 1;
+                    foreach (double value in reOrderPointsValues)
+                    {
+                        respuesta.Append("R" + contadorPunto + ": " + value);
+                        respuesta.AppendLine();
+                        contadorPunto++;
+                    }
+
+                    respuesta.Append("Hora Finalizacion: " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                }
+                else if (rbEscenario2.Checked)
+                {
+                    respuesta.Append("Inicio calculo de resultados " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                    respuesta.AppendLine();
+                    respuesta.Append("Costo fabricante: " + util.getFScenario2((int)numPlayers.Value,
+                                                    getValueParameter(listParameterValues, false, "Kf"),
+                                                    getValueParameter(listParameterValues, true, "D"),
+                                                    getValueVariable(ListResultsVariable, false, "Qf"),
+                                                    getValueParameter(listParameterValues, false, "Hf"),
+                                                    getValueVariable(ListResultsVariable, false, "Cf"),
+                                                    getValueParameter(listParameterValues, false, "Sf"),
+                                                    getValueVariable(ListResultsVariable, true, "Bf"),
+                                                    getListValuePameter(listParameterValues, "k"),
+                                                    getListValuePameter(listParameterValues, "D"),
+                                                    getListValuePameter(listParameterValues, "h"),
+                                                    getListValuePameter(listParameterValues, "s"),
+                                                    getListValueVariable(ListResultsVariable, "q"),
+                                                    getListValueVariable(ListResultsVariable, "b"),
+                                                    getListValueVariable(ListResultsVariable, "alfa")
+                                                    ));
+                    respuesta.AppendLine();
+
+                    List<double> retailerValues = util.getMScenario2((int)numPlayers.Value,
+                                                            getListValuePameter(listParameterValues, "k"),
+                                                            getListValuePameter(listParameterValues, "D"),
+                                                            getListValuePameter(listParameterValues, "h"),
+                                                            getListValuePameter(listParameterValues, "s"),
+                                                            getListValueVariable(ListResultsVariable, "q"),
+                                                            getListValueVariable(ListResultsVariable, "b"),
+                                                            getListValueVariable(ListResultsVariable, "beta"));
+                    int contadorMinorista = 1;
+                    foreach (double value in retailerValues)
+                    {
+                        respuesta.Append("Costo minorista " + contadorMinorista + ": " + value);
+                        respuesta.AppendLine();
+                        contadorMinorista++;
+                    }
+
+                    List<double> reOrderPointsValues = util.getReOrderPoint((int)numPlayers.Value,
+                                    getListValueVariable(ListResultsVariable, "q"),
+                                    getListValuePameter(listParameterValues, "D"),
+                                    getListValueVariable(ListResultsVariable, "b"),
+                                    double.Parse(txtLeadTime.Text, System.Globalization.CultureInfo.InvariantCulture)
+                                    );
+
+                    int contadorPunto = 1;
+                    foreach (double value in reOrderPointsValues)
+                    {
+                        respuesta.Append("R" + contadorPunto + ": " + value);
+                        respuesta.AppendLine();
+                        contadorPunto++;
+                    }
+
+                    respuesta.Append("Hora Finalizacion: " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                }
+                else
+                {
+                    respuesta.Append("Inicio calculo de resultados " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                    respuesta.AppendLine();
+                    respuesta.Append("Costo fabricante: " + util.getFScenario3((int)numPlayers.Value,
+                                    getValueParameter(listParameterValues, false, "Kf"),
+                                    getValueParameter(listParameterValues, true, "D"),
+                                    getValueVariable(ListResultsVariable, false, "Qf"),
+                                    getValueParameter(listParameterValues, false, "Hf"),
+                                    getValueVariable(ListResultsVariable, false, "Cf"),
+                                    getValueParameter(listParameterValues, false, "Sf"),
+                                    getValueVariable(ListResultsVariable, true, "Bf"),
+                                    getListValuePameter(listParameterValues, "k"),
+                                    getListValuePameter(listParameterValues, "D"),
+                                    getListValuePameter(listParameterValues, "h"),
+                                    getListValuePameter(listParameterValues, "s"),
+                                    getListValueVariable(ListResultsVariable, "q"),
+                                    getListValueVariable(ListResultsVariable, "b"),
+                                    getListValueVariable(ListResultsVariable, "alfa")
+                                    ));
+                    respuesta.AppendLine();
+
+                    List<double> retailerValues = util.getMScenario3((int)numPlayers.Value,
+                                                            getListValuePameter(listParameterValues, "k"),
+                                                            getListValuePameter(listParameterValues, "D"),
+                                                            getListValuePameter(listParameterValues, "h"),
+                                                            getListValuePameter(listParameterValues, "s"),
+                                                            getListValueVariable(ListResultsVariable, "q"),
+                                                            getListValueVariable(ListResultsVariable, "b"),
+                                                            getListValueVariable(ListResultsVariable, "beta"),
+                                                            getListValuePameter(listParameterValues, "T"),
+                                                            getListValueVariable(ListResultsVariable, "L"));
+                    int contadorMinorista = 1;
+                    foreach (double value in retailerValues)
+                    {
+                        respuesta.Append("Costo minorista " + contadorMinorista + ": " + value);
+                        respuesta.AppendLine();
+                        contadorMinorista++;
+                    }
+
+                    List<double> reOrderPointsValues = util.getReOrderPoint((int)numPlayers.Value,
+                                    getListValueVariable(ListResultsVariable, "q"),
+                                    getListValuePameter(listParameterValues, "D"),
+                                    getListValueVariable(ListResultsVariable, "b"),
+                                    double.Parse(txtLeadTime.Text, System.Globalization.CultureInfo.InvariantCulture)
+                                    );
+
+                    int contadorPunto = 1;
+                    foreach (double value in reOrderPointsValues)
+                    {
+                        respuesta.Append("R" + contadorPunto + ": " + value);
+                        respuesta.AppendLine();
+                        contadorPunto++;
+                    }
+
+                    respuesta.Append("Hora Finalizacion: " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                }
+                richConsoleViewer.Clear();
+                richConsoleViewer.AppendText(respuesta.ToString());
+
+                btnExecuteProgram.Enabled = true;
             }
-            richConsoleViewer.Clear();
-            richConsoleViewer.AppendText(respuesta.ToString());
+        }
 
-            btnExecuteProgram.Enabled = true;
+        private bool validaForm()
+        {
+            warning = string.Empty;
+            bool err = false;
+            StringBuilder errTxt = new StringBuilder();
+
+            errTxt.Append("Se encontraron los siguientes errores:");
+            errTxt.AppendLine();
+
+            if (txtLeadTime.Text.Equals("0.0") || txtLeadTime.Text.Equals(""))
+            {
+                errTxt.Append("Debe asignar valor de Lead Time");
+                errTxt.AppendLine();
+                err = true;
+            }
+            if (txtResultDirectory.Text.Equals(""))
+            {
+                errTxt.Append("Debe seleccionar un directorio para guardar resultados");
+                errTxt.AppendLine();
+                err = true;
+            }
+            if (richScriptViewer.Text.Equals(""))
+            {
+                errTxt.Append("Debe generar el Script Gams");
+                errTxt.AppendLine();
+                err = true;
+            }
+            bool asignaParameters = false;
+            foreach (DataGridViewRow row in dgvParameters.Rows)
+            {
+                if (!row.Cells[1].Value.Equals("0"))
+                {
+                    asignaParameters = true;
+                }
+            }
+
+            if (!asignaParameters)
+            {
+                errTxt.Append("Debe darle valores a los parametros");
+                errTxt.AppendLine();
+                err = true;
+            }
+            warning = errTxt.ToString();
+            return err;
         }
 
         private double getValueParameter(List<Parameter> parameters, bool isTotal, string parameterName)
@@ -307,7 +457,7 @@ namespace modelsGenerator
             return retorno;
         }
 
-        private void executeGamsJob(string modelo)
+        private void executeGamsJob(string modelo, string directorio)
         {
             List<string> variablesEval = new List<string>();
             if (rbEscenario1.Checked) { variablesEval = getVariableEval(1); }
@@ -318,7 +468,7 @@ namespace modelsGenerator
             if (Environment.GetCommandLineArgs().Length > 1)
                 ws = new GAMSWorkspace(systemDirectory: Environment.GetCommandLineArgs()[1]);
             else
-                ws = new GAMSWorkspace("D://");
+                ws = new GAMSWorkspace(@directorio);
 
             using (GAMSOptions opt = ws.AddOptions())
             {
@@ -630,6 +780,30 @@ namespace modelsGenerator
             string replaceNew = @"scalar " + dgvParameters[0, e.RowIndex].Value.ToString() + " /" + dgvParameters[e.ColumnIndex, e.RowIndex].Value.ToString() + "/";
 
             richScriptViewer.Rtf = richScriptViewer.Rtf.Replace(replaceOld, replaceNew);
+        }
+
+        private void txtLeadTime_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (((e.KeyChar < 48 || e.KeyChar > 57) && e.KeyChar != 8 && e.KeyChar != 46))
+            {
+                e.Handled = true;
+                return;
+            }
+
+            if (e.KeyChar == 46)
+            {
+                if ((sender as TextBox).Text.IndexOf(e.KeyChar) != -1)
+                    e.Handled = true;
+            }
+        }
+
+        private void btnBrowseFolder_Click(object sender, EventArgs e)
+        {
+            DialogResult dialog = fbdResults.ShowDialog();
+            if (dialog == DialogResult.OK)
+            {
+                txtResultDirectory.Text = fbdResults.SelectedPath;
+            }
         }
     }
 }
